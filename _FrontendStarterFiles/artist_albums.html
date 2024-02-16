@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Chinook Artist Albums</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS-->
+        <link href="styles.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="container custom-container">
+            <div id="albumListHeader" class="custom-header"></div>
+            <ul id="albumList" class="list-group">
+                <!-- Li items will be dynamically generated here -->
+            </ul>
+        </div>
+
+        <!-- Bootstrap JS and Popper.js (Optional) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- Custom JavaScript to fetch data and render list -->
+        <script>
+            // Get the artist values from the querystring
+            const artistId = getQueryParam('artistid');
+            const artistName = getQueryParam('artistname');
+            console.log(artistName)
+
+            //update the list header with name of artist
+            document.getElementById('albumListHeader').innerText = `Albums for ${artistName}`;
+
+            if (artistId) {
+                // Fetch list of albums for selected artist from the api
+                fetch(`/api/artists/${artistId}/albums`)
+                    .then(response => response.json())
+                    .then(jsonData => {
+                        generateHTML(jsonData);
+                    })
+                .catch(error => console.log('Error fetching data: ', error))
+            } else {
+                console.error('Artist ID not found in querystring');
+            }
+
+
+            // Function to generate HTML from the array of objects
+            function generateHTML(albums) {
+                const albumListContainer = document.getElementById('albumList');
+
+                // Check if the container exists
+                if (!albumListContainer) {
+                    console.error('Album list container not found');
+                    return;
+                }
+
+                // Loop through the array of fetched data and generate li items
+                albums.forEach(album => {
+                    const albumItem = document.createElement('li');
+                    albumItem.className = 'list-group-item custom-list-item';
+                    
+                    // Create a hyperlink within the list item
+                    const albumLink = document.createElement('a');
+                    albumLink.href = `#`;
+                    albumLink.innerHTML = `<strong>${album.Title}</strong>`;
+                    
+                    // Append the hyperlink to the list item
+                    albumItem.appendChild(albumLink);
+                    
+                    // Append the list item to the container
+                    albumListContainer.appendChild(albumItem);
+                });
+            }
+
+            // Function to get the value of a querystring parameter
+            function getQueryParam(parameterName) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(parameterName);
+            }
+        </script>
+
+    </body>
+</html>

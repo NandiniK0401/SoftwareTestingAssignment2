@@ -1,0 +1,32 @@
+body {
+    background-color: #333; /* Darker grey background */
+    color: #fff; /* Text color */
+}
+
+.custom-container {
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px; /* Move the container down */
+}
+
+.custom-list-item {
+    background-color: #444; /* Darker grey for each item */
+    margin-bottom: 10px; /* Separation between items */
+    padding: 10px;
+    transition: background-color 0.3s; /* Smooth color transition on hover */
+}
+
+.custom-list-item a {
+    text-decoration: none;
+    color: #fff; /* Text color for the link */
+}
+
+.custom-list-item:hover {
+    background-color: #555; /* Slightly lighter color on hover */
+}
+
+.custom-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
