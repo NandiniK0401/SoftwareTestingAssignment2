@@ -7,4 +7,5 @@ test('Get data of all artists', async ()=>{
 
     expect(response.statusCode).toBe(200);
     server.close();
+    
 })
